@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data: keep folder structure, not the files
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Test and tool caches
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Personal Claude Code settings (not shared with the repo)
+CLAUDE.local.md
+.claude/settings.local.json
+
+# Editors and OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
