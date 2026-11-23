@@ -7,6 +7,7 @@ surrounding whitespace. Type conversion (dates, prices) and business rules
 
 from __future__ import annotations
 
+import argparse
 from pathlib import Path
 
 import pandas as pd
@@ -25,10 +26,26 @@ def load_raw_sales(path: Path) -> pd.DataFrame:
     """
     df = pd.read_csv(path, encoding="utf-8", dtype=str)
 
-    df.columns = [normalize_column_name(nombre_columna) for nombre_columna in df.columns]
+    df.columns = [normalize_column_name(column_name) for column_name in df.columns]
 
-    for nombre_columna in df.columns:
-        if pd.api.types.is_string_dtype(df[nombre_columna]):
-            df[nombre_columna] = df[nombre_columna].str.strip()
+    for column_name in df.columns:
+        if pd.api.types.is_string_dtype(df[column_name]):
+            df[column_name] = df[column_name].str.strip()
 
     return df
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Load a raw CSV and print a short preview. Temporary entry point until the full CLI exists."""
+    parser = argparse.ArgumentParser(description="Load a raw sales CSV and show a preview.")
+    parser.add_argument("path", type=Path, help="Path to the raw CSV file.")
+    args = parser.parse_args(argv)
+
+    df = load_raw_sales(args.path)
+    print(f"Rows: {len(df)}, columns: {len(df.columns)}")
+    print(df.head().to_string())
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
